@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>einfachmehrvomLeben e.V. – Betreuung und Begleitung im Alltag</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts passend zu den Squarespace-Screenshots -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            waldgruen: '#2C5545',
+            waldgruenSection: '#2A4E3E',
+            waldgruenCard: '#173326',
+            terracotta: '#8E543E',
+            creme: '#F7F4EE',
+            anthrazit: '#1E1E1E',
+          },
+          fontFamily: {
+            display: ['"DM Serif Display"', 'Georgia', 'serif'],
+            sans: ['Lato', 'system-ui', 'sans-serif'],
+          },
+          gridTemplateColumns: {
+            '24': 'repeat(24, minmax(0, 1fr))',
+          },
+          gridColumn: {
+            'span-13': 'span 13 / span 13',
+            'span-14': 'span 14 / span 14',
+            'span-15': 'span 15 / span 15',
+            'span-16': 'span 16 / span 16',
+            'span-24': 'span 24 / span 24',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lato', sans-serif;
+      color: #1E1E1E;
+      background-color: #E5E2DC;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* Kondensierte Display-Serifenschrift exakt wie in den Squarespace-Screenshots */
+    .sq-heading {
+      font-family: 'DM Serif Display', Georgia, serif;
+      letter-spacing: -0.015em;
+      display: inline-block;
+      transform: scaleX(0.86);
+      transform-origin: left center;
+    }
+    .sq-heading-center {
+      font-family: 'DM Serif Display', Georgia, serif;
+      letter-spacing: -0.015em;
+      display: inline-block;
+      transform: scaleX(0.86);
+      transform-origin: center center;
+    }
+
+    /* Squarespace 24-Spalten Fluid Engine Simulation */
+    .sq-grid {
+      display: grid;
+      grid-template-columns: repeat(24, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 1023px) {
+      .sq-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+      .sq-grid > * {
+        grid-column: span 1 / span 1 !important;
+      }
+      .desktop-nav {
+        display: none !important;
+      }
+      .mobile-nav-btn {
+        display: flex !important;
+      }
+      .hero-divider {
+        border-right: none !important;
+        border-bottom: 1px solid #C8C4BC;
+        padding-bottom: 1.5rem;
+      }
+    }
+
+    /* Mobile Preview-Modus (390px iPhone Frame) */
+    #viewport-wrapper.mobile-mode {
+      max-width: 390px;
+      margin: 24px auto 48px auto;
+      border: 12px solid #1f2937;
+      border-radius: 44px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      overflow-x: hidden;
+      background-color: #F7F4EE;
+    }
+
+    #viewport-wrapper.mobile-mode .sq-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem !important;
+    }
+
+    #viewport-wrapper.mobile-mode .sq-grid > * {
+      grid-column: span 1 / span 1 !important;
+    }
+
+    #viewport-wrapper.mobile-mode .desktop-nav {
+      display: none !important;
+    }
+
+    #viewport-wrapper.mobile-mode .mobile-nav-btn {
+      display: flex !important;
+    }
+
+    #viewport-wrapper.mobile-mode .hero-divider {
+      border-right: none !important;
+      border-bottom: 1px solid #C8C4BC;
+      padding-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body class="pt-14">
+
+  <!-- =====================================================================
+       FIXIERTER PREVIEW-SWITCHER (Desktop 24-Spalten vs. Mobile 390px Frame)
+       ===================================================================== -->
+  <div class="fixed top-0 left-0 right-0 z-50 bg-anthrazit text-creme px-4 py-2.5 shadow-md border-b border-white/10 flex flex-wrap items-center justify-between gap-2 text-sm">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#2C5545]"></span>
+      <span class="font-bold tracking-wide">SQUARESPACE 7.1 PROTOTYP</span>
+      <span class="hidden sm:inline text-white/60">| einfachmehrvomLeben e.V.</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="btn-desktop" onclick="setPreviewMode('desktop')" class="px-3.5 py-1.5 rounded font-bold transition bg-[#2C5545] text-white">
+        Desktop Ansicht (24-Spalten)
+      </button>
+      <button id="btn-mobile" onclick="setPreviewMode('mobile')" class="px-3.5 py-1.5 rounded font-bold transition bg-white/10 text-creme hover:bg-white/20">
+        Mobile Ansicht (390px iPhone)
+      </button>
+    </div>
+  </div>
+
+  <!-- HAUPT-VIEWPORT CONTAINER -->
+  <div id="viewport-wrapper" class="w-full bg-creme transition-all duration-300">
+
+    <!-- =====================================================================
+         HEADER / NAVIGATION (Hintergrund: #2C5545, Schrift: Cremeweiß, Original-Logo links)
+         ===================================================================== -->
+    <header class="bg-[#2C5545] text-[#F9F6F0] sticky top-0 z-40 shadow-sm">
+      <div class="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between gap-4">
+        
+        <!-- Original-Logo ganz links -->
+        <a href="#top" class="flex items-center gap-3 shrink-0">
+          <img 
+            src="Logo.png" 
+            onerror="this.onerror=null; this.src=window.ORIGINAL_LOGO_DATA_URI;" 
+            alt="einfachmehrvomLeben e.V. Original-Logo" 
+            class="h-14 w-auto object-contain bg-white rounded-md p-1"
+          />
+          <div>
+            <span class="block font-bold text-lg leading-tight text-[#F9F6F0]">einfachmehrvomLeben e.V.</span>
+            <span class="block text-xs text-[#F9F6F0]/80 tracking-wide">Würdevolle Begleitung · Königswinter & Umgebung</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation (Schriftfarbe weiß bzw. cremeweiß) -->
+        <nav class="desktop-nav hidden lg:flex items-center gap-6 text-[15px] font-normal text-[#F9F6F0]">
+          <a href="#sektion-3" class="hover:text-white/80 font-medium transition">Alltagsbegleitung</a>
+          <a href="#sektion-3" class="hover:text-white/80 font-medium transition">Demenzbegleitung</a>
+          <a href="#sektion-3" class="hover:text-white/80 font-medium transition">Trauer- & Sterbebegleitung</a>
+          <a href="#sektion-5" class="hover:text-white/80 font-medium transition">Finanzierung</a>
+          <a href="#sektion-1" class="hover:text-white/80 font-medium transition">Über uns</a>
+          <a href="#sektion-6" class="ml-1 px-4 py-2 rounded border border-[#F9F6F0]/40 hover:bg-[#F9F6F0] hover:text-[#2C5545] text-[#F9F6F0] font-bold text-sm transition">
+            Kontakt
+          </a>
+        </nav>
+
+        <!-- Mobile Menü-Button -->
+        <button onclick="toggleMobileMenu()" class="mobile-nav-btn hidden lg:hidden items-center justify-center p-2 rounded border border-[#F9F6F0]/30 text-[#F9F6F0]" aria-label="Menü öffnen">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Ausklappbares Mobile-Menü -->
+      <div id="mobile-menu" class="hidden bg-[#2C5545] border-t border-[#F9F6F0]/15 px-6 py-4 space-y-3 text-base text-[#F9F6F0]">
+        <a href="#sektion-3" class="block py-1 font-medium hover:text-white/80">Alltagsbegleitung</a>
+        <a href="#sektion-3" class="block py-1 font-medium hover:text-white/80">Demenzbegleitung</a>
+        <a href="#sektion-3" class="block py-1 font-medium hover:text-white/80">Trauer- & Sterbebegleitung</a>
+        <a href="#sektion-5" class="block py-1 font-medium hover:text-white/80">Finanzierung</a>
+        <a href="#sektion-1" class="block py-1 font-medium hover:text-white/80">Über uns</a>
+        <a href="#sektion-6" class="block text-center mt-2 py-2 rounded bg-[#F9F6F0] text-[#2C5545] font-bold">Kontakt</a>
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         SEKTION 1 (Exakt nach Screenshot 1.jpg)
+         ===================================================================== -->
+    <section id="sektion-1" class="pt-14 pb-12 md:pt-20 md:pb-16 bg-[#F7F4EE]">
+      <div class="max-w-[1320px] mx-auto px-6">
+        <div class="sq-grid items-center">
+
+          <!-- Linke Spalte (Spalte 1 bis 7) -->
+          <div class="col-span-7 hero-divider border-r border-[#C8C4BC] pr-6 py-4">
+            <h1 class="sq-heading text-[42px] md:text-[48px] leading-[1.08] text-[#2A4E3E] mb-7">
+              Betreuung und<br />
+              Begleitung im<br />
+              Alltag
+            </h1>
+            <p class="text-[#8E543E] font-bold text-[18px] leading-[1.45] mb-7">
+              Für Senioren und Menschen<br />
+              mit Behinderung
+            </p>
+            <div class="inline-block bg-[#2A4E3E] text-white text-[14px] px-3.5 py-1 rounded-r-full font-normal">
+              Königswinter · Bad Honnef · Bonn
+            </div>
+          </div>
+
+          <!-- Mittlere Spalte (Spalte 8 bis 16) -->
+          <div class="col-span-9 hero-divider border-r border-[#C8C4BC] px-4 md:px-8 py-4 text-center">
+            <p class="text-[#1E1E1E] text-[16.5px] leading-[1.75]">
+              "Alles begann mit Thomas. Als mein Bruder<br class="hidden sm:inline" />
+              an MS erkrankte, erlebten wir am eigenen<br class="hidden sm:inline" />
+              Leib, was es heißt, auf Hilfe angewiesen zu<br class="hidden sm:inline" />
+              sein. Wir wollten keine sterile<br class="hidden sm:inline" />
+              "Verwahranstalt", sondern Menschlichkeit,<br class="hidden sm:inline" />
+              Respekt und Würde. Weil wir das nicht<br class="hidden sm:inline" />
+              fanden, gründeten wir 2015
+            </p>
+            <p class="italic text-[#1E1E1E] text-[17px] mt-4">
+              einfachmehrvomLeben e.V."
+            </p>
+          </div>
+
+          <!-- Rechte Spalte (Spalte 17 bis 24): Zwei runde überlappende Porträts -->
+          <div class="col-span-8 pl-2 md:pl-6 py-2">
+            <div class="relative w-full max-w-[430px] mx-auto min-h-[340px]">
+              
+              <!-- Jan Daniel Fischer (links unten) -->
+              <div class="w-[54%] absolute left-0 bottom-0 z-10 text-center">
+                <div class="w-44 h-44 md:w-48 md:h-48 mx-auto rounded-full overflow-hidden shadow-md">
+                  <img 
+                    src="Daniel Fischer.webp" 
+                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';"
+                    alt="Jan Daniel Fischer, Gründer" 
+                    class="w-full h-full object-cover object-center"
+                  />
+                </div>
+                <p class="text-[14px] text-[#1E1E1E] leading-snug mt-2.5">
+                  Jan Daniel Fischer,<br />
+                  Gründer
+                </p>
+              </div>
+
+              <!-- Brigitte Lemaire (rechts oben, überlappend) -->
+              <div class="w-[54%] absolute right-0 top-0 z-20 text-center">
+                <div class="w-44 h-44 md:w-48 md:h-48 mx-auto rounded-full overflow-hidden shadow-md">
+                  <img 
+                    src="Brigitte.webp" 
+                    onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80';"
+                    alt="Brigitte Lemaire, Gründerin" 
+                    class="w-full h-full object-cover object-center"
+                  />
+                </div>
+                <p class="text-[14px] text-[#1E1E1E] leading-snug mt-2.5">
+                  Brigitte Lemaire,<br />
+                  Gründerin
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 2 (Exakt nach Screenshot 2.png inkl. geschwungener brauner Linie oben & unten)
+         ===================================================================== -->
+    <section id="sektion-2" class="relative bg-[#2A4E3E] text-white">
+      
+      <!-- Obere Wellen-Trennlinie (Creme zu Dunkelgrün mit brauner Kontur) -->
+      <div class="w-full overflow-hidden leading-none bg-[#F7F4EE]">
+        <svg class="w-full h-[55px] md:h-[85px] block" viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path d="M0,42 C340,-18 680,105 1080,82 C1260,72 1370,52 1440,42 L1440,100 L0,100 Z" fill="#2A4E3E"></path>
+          <path d="M0,42 C340,-18 680,105 1080,82 C1260,72 1370,52 1440,42" fill="none" stroke="#8B4A2B" stroke-width="4"></path>
+        </svg>
+      </div>
+
+      <!-- Inhalt Sektion 2 -->
+      <div class="max-w-[1320px] mx-auto px-6 py-14 md:py-20">
+        <div class="text-center mb-12">
+          <h2 class="sq-heading-center text-[36px] md:text-[46px] leading-tight text-white">
+            Was wunderbare Menschen über unsere Begleitung sagen
+          </h2>
+        </div>
+
+        <div class="relative flex items-center justify-between max-w-[1140px] mx-auto">
+          <!-- Pfeil Links -->
+          <button onclick="prevReview()" class="w-11 h-11 rounded-full bg-[#C5CFCB] hover:bg-white text-[#1E1E1E] flex items-center justify-center shrink-0 transition" aria-label="Vorherige Bewertung">
+            <span class="text-lg leading-none">←</span>
+          </button>
+
+          <!-- Zitat Mitte -->
+          <div class="max-w-[560px] mx-auto px-4 text-center">
+            <p id="review-text" class="text-[15px] md:text-[16px] leading-[1.75] text-white font-normal">
+              „Hier wird wahre Menschenarbeit geleistet, sich auf Augenhöhe<br class="hidden sm:inline" />
+              begegnet – ohne Profitgier und Zeitdruck. Im Rahmen meiner Arbeit<br class="hidden sm:inline" />
+              habe ich diesen Verein mit ins Boot geholt. Eine wunderbare<br class="hidden sm:inline" />
+              Unterstützung! Meine Klienten fühlen sich wertgeschätzt und in ihren<br class="hidden sm:inline" />
+              Wünschen und Bedürfnissen gesehen. Der Austausch ist freundlich,<br class="hidden sm:inline" />
+              kollegial, immer herzlich und oft humorvoll. Danke dafür.“
+            </p>
+          </div>
+
+          <!-- Pfeil Rechts -->
+          <button onclick="nextReview()" class="w-11 h-11 rounded-full bg-[#C5CFCB] hover:bg-white text-[#1E1E1E] flex items-center justify-center shrink-0 transition" aria-label="Nächste Bewertung">
+            <span class="text-lg leading-none">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Untere Wellen-Trennlinie (Dunkelgrün zu Creme mit brauner Kontur) -->
+      <div class="w-full overflow-hidden leading-none bg-[#F7F4EE]">
+        <svg class="w-full h-[55px] md:h-[85px] block" viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path d="M0,0 L1440,0 L1440,48 C1340,65 1180,95 960,82 C620,62 340,-10 0,50 Z" fill="#2A4E3E"></path>
+          <path d="M0,50 C340,-10 620,62 960,82 C1180,95 1340,65 1440,48" fill="none" stroke="#8B4A2B" stroke-width="4"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 3 (Exakt nach Screenshot 3.jpg: Die 3 Karten nebeneinander)
+         ===================================================================== -->
+    <section id="sektion-3" class="py-16 md:py-24 bg-[#F7F4EE]">
+      <div class="max-w-[1060px] mx-auto px-6">
+        <div class="sq-grid">
+
+          <!-- Karte 1: Alltagsbegleitung -->
+          <div class="col-span-8 flex flex-col items-center">
+            <div class="w-full max-w-[310px]">
+              <div class="aspect-[4/4.3] w-full rounded-t-xl overflow-hidden">
+                <img 
+                  src="Alltag.webp" 
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516733968668-dbdce39c4651?auto=format&fit=crop&w=800&q=80';"
+                  alt="Alltagsbegleitung" 
+                  class="w-full h-full object-cover object-center"
+                />
+              </div>
+              <div class="-mt-6 relative z-10 bg-[#2A4E3E] p-2.5 rounded-xl shadow-md">
+                <div class="bg-[#182F24]/90 rounded-lg px-4 py-5 text-center text-white min-h-[150px] flex flex-col justify-center">
+                  <h3 class="font-bold text-[16px] mb-2">
+                    <span class="underline decoration-white underline-offset-4 bg-[#6A7B4F]/50 px-1.5 py-0.5 rounded-sm">Alltagsbegleitung</span>
+                  </h3>
+                  <p class="italic text-[14.5px] leading-[1.6] text-white/95">
+                    Unterstützung im Haushalt,<br />
+                    gemeinsames Kochen, Begleitung<br />
+                    zum Arzt und mehr
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Karte 2: Demenzbegleitung -->
+          <div class="col-span-8 flex flex-col items-center">
+            <div class="w-full max-w-[310px]">
+              <div class="aspect-[4/4.3] w-full rounded-t-xl overflow-hidden">
+                <img 
+                  src="Demenz.webp" 
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=800&q=80';"
+                  alt="Demenzbegleitung" 
+                  class="w-full h-full object-cover object-center"
+                />
+              </div>
+              <div class="-mt-6 relative z-10 bg-[#2A4E3E] p-2.5 rounded-xl shadow-md">
+                <div class="bg-[#0F1E17]/95 rounded-lg px-4 py-5 text-center text-white min-h-[150px] flex flex-col justify-center">
+                  <h3 class="font-bold text-[16px] mb-2">
+                    <span class="underline decoration-white underline-offset-4 bg-[#6A7B4F]/50 px-1.5 py-0.5 rounded-sm">Demenzbegleitung</span>
+                  </h3>
+                  <p class="italic text-[14.5px] leading-[1.6] text-white/95">
+                    Stundenweise Entlastung für<br />
+                    pflegende Angehörige mit<br />
+                    Bezugsperson
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Karte 3: Sterbe- & Trauerbegleitung -->
+          <div class="col-span-8 flex flex-col items-center">
+            <div class="w-full max-w-[310px]">
+              <div class="aspect-[4/4.3] w-full rounded-t-xl overflow-hidden">
+                <img 
+                  src="Trauer.webp" 
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';"
+                  alt="Sterbe- & Trauerbegleitung" 
+                  class="w-full h-full object-cover object-center"
+                />
+              </div>
+              <div class="-mt-6 relative z-10 bg-[#2A4E3E] p-2.5 rounded-xl shadow-md">
+                <div class="bg-[#0B1611]/95 rounded-lg px-4 py-5 text-center text-white min-h-[150px] flex flex-col justify-center">
+                  <h3 class="font-bold text-[16px] mb-2">
+                    <span class="underline decoration-white underline-offset-4 bg-[#6A7B4F]/50 px-1.5 py-0.5 rounded-sm">Sterbe- &amp; Trauerbegleitung</span>
+                  </h3>
+                  <p class="italic text-[14.5px] leading-[1.6] text-white/95">
+                    Ein fester Anker für Betroffene und<br />
+                    Familien in schweren Zeiten
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 4 (Exakt nach Screenshot 4..png: Dunkelgrüner Anerkennungs-Balken)
+         ===================================================================== -->
+    <section id="sektion-4" class="py-16 md:py-20 bg-[#2A4E3E] text-white text-center">
+      <div class="max-w-[1100px] mx-auto px-6">
+        <h2 class="sq-heading-center text-[36px] md:text-[46px] leading-tight text-white mb-8">
+          einfachmehrvomLeben e.V. ist anerkannt:
+        </h2>
+        <p class="text-[15.5px] md:text-[16.5px] text-white mb-6">
+          ✓ nach Landesrecht NRW zur Alltagsbegleitung/Betreuung der Paragrafen 36/39/42/42a/45a/45b.
+        </p>
+        <p class="text-[15.5px] md:text-[16.5px] text-white">
+          ✓ vom Landschaftsverband Rheinland für den Rheinisch Bergischen Kreis und die Erbringung von Assistenzleistung nach dem SGB IX.
+        </p>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 5 (Exakt nach Screenshot 5..png: Kostenübernahme oder private Finanzierung?)
+         ===================================================================== -->
+    <section id="sektion-5" class="pt-16 md:pt-20 bg-[#F7F4EE] relative">
+      <div class="max-w-[960px] mx-auto px-6 pb-16 md:pb-20 text-center">
+        <h2 class="sq-heading-center text-[36px] md:text-[46px] leading-tight text-[#2A4E3E] mb-8">
+          Kostenübernahme oder private Finanzierung?
+        </h2>
+
+        <p class="text-[16px] md:text-[17px] leading-[1.8] text-[#1E1E1E] mb-7">
+          Viele Betroffene und Angehörige fragen sich, wie sie eine würdevolle Begleitung finanzieren können. Als Ihr<br class="hidden md:inline" />
+          persönlicher Co-Pilot lassen wir Sie im Bürokratie-Dschungel nicht allein und prüfen gemeinsam, welche<br class="hidden md:inline" />
+          <strong>Budgets der Pflegekasse</strong> Sie nutzen können. Für ein Höchstmaß an Lebensqualität bieten wir zudem unsere<br class="hidden md:inline" />
+          <strong>Assistenz für Selbstzahler</strong> an – auch gänzlich ohne Pflegegrad.
+        </p>
+
+        <p class="text-[16px] md:text-[17px] font-bold text-[#1E1E1E] mb-5">
+          Ihr Vorteil als Privatzahler:
+        </p>
+
+        <p class="text-[16px] md:text-[17px] text-[#1E1E1E] mb-6">
+          Sie genießen wertvolle Zeit ohne Stoppuhr, flexibel und unabhängig.
+        </p>
+
+        <p class="text-[16px] md:text-[17px] leading-[1.8] text-[#1E1E1E]">
+          Ob <strong>Kassenabrechnung</strong> oder <strong>private Aufstockung</strong>, wir helfen Ihnen von Herzen,<br class="hidden md:inline" />
+          das passende Modell zu finden.
+        </p>
+      </div>
+
+      <!-- Sanfte Welle unten zum weißen Bereich (wie in Screenshot 5..png) -->
+      <div class="w-full overflow-hidden leading-none bg-white">
+        <svg class="w-full h-[50px] md:h-[70px] block" viewBox="0 0 1440 100" preserveAspectRatio="none">
+          <path d="M0,0 L1440,0 L1440,55 C1160,105 880,105 580,45 C320,-5 140,20 0,55 Z" fill="#F7F4EE"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 6 (Exakt nach Screenshot 6..jpg: Lernen Sie uns kennen + Logo rechts)
+         ===================================================================== -->
+    <section id="sektion-6" class="py-12 md:py-16 bg-white">
+      <div class="max-w-[980px] mx-auto px-6">
+        <div class="sq-grid items-center">
+
+          <!-- Linke Textspalte (Spalte 1 bis 14) -->
+          <div class="col-span-14">
+            <h2 class="sq-heading text-[36px] md:text-[42px] leading-tight text-[#2A4E3E] mb-7">
+              Lernen Sie uns kennen
+            </h2>
+
+            <p class="text-[15.5px] leading-[1.7] text-[#1E1E1E] mb-5">
+              Einen geliebten Menschen in unterstützende Hände zu<br class="hidden sm:inline" />
+              geben oder selbst Hilfe anzunehmen ist vor allem eines:<br />
+              <strong>Vertrauenssache.</strong>
+            </p>
+
+            <p class="text-[15.5px] leading-[1.7] text-[#1E1E1E] mb-5">
+              Deshalb beginnt unsere Begleitung immer mit einem ruhigen<br class="hidden sm:inline" />
+              persönlichen Kennenlern- Gespräch.
+            </p>
+
+            <p class="text-[15.5px] leading-[1.7] text-[#1E1E1E] mb-5">
+              Erzählen Sie uns von Ihrer aktuellen Situation in<br class="hidden sm:inline" />
+              Königswinter, Bad Honnef, Bonn oder Umgebung. Brigitte<br class="hidden sm:inline" />
+              Lemaire und Jan-Daniel Fischer melden sich persönlich bei<br class="hidden sm:inline" />
+              Ihnen zurück.
+            </p>
+
+            <p class="text-[15.5px] leading-[1.7] text-[#1E1E1E] mb-8">
+              Nutzen Sie dazu gerne das Kontaktformular einen Schritt<br class="hidden sm:inline" />
+              weiter unten oder rufen Sie uns direkt an:
+            </p>
+
+            <p class="text-[15.5px] leading-[1.75] text-[#1E1E1E]">
+              Tel. 01520 – 34 66 890 oder 0160 - 96 89 30 85<br />
+              E-Mail: <a href="mailto:einfachmehrvomleben@web.de" class="underline hover:text-[#2A4E3E]">einfachmehrvomleben@web.de</a>
+            </p>
+          </div>
+
+          <!-- Rechte Spalte: Original-Logo (Spalte 15 bis 24) -->
+          <div class="col-span-10 flex justify-center md:justify-end">
+            <img 
+              src="Logo.png" 
+              onerror="this.onerror=null; this.src=window.ORIGINAL_LOGO_DATA_URI;" 
+              alt="einfach mehr vom Leben Logo" 
+              class="w-full max-w-[320px] h-auto object-contain"
+            />
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SEKTION 7 (Exakt nach Screenshot 7..png: Kontaktformular)
+         ===================================================================== -->
+    <section id="sektion-7" class=" pt-4 pb-20 bg-white">
+      <div class="max-w-[900px] mx-auto px-6">
+        <form onsubmit="handleFormSubmit(event)" class="space-y-6">
+          
+          <!-- Name Gruppe -->
+          <div>
+            <div class="text-[15.5px] text-[#1E1E1E] mb-2">Name</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label for="vorname" class="block text-[13.5px] text-[#1E1E1E] mb-1">
+                  Vorname <span class="text-[#555555]">(erforderlich)</span>
+                </label>
+                <input type="text" id="vorname" required class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] focus:outline-none focus:border-black" />
+              </div>
+              <div>
+                <label for="nachname" class="block text-[13.5px] text-[#1E1E1E] mb-1">
+                  Nachname <span class="text-[#555555]">(erforderlich)</span>
+                </label>
+                <input type="text" id="nachname" required class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] focus:outline-none focus:border-black" />
+              </div>
+            </div>
+          </div>
+
+          <!-- E-Mail -->
+          <div>
+            <label for="email" class="block text-[15.5px] text-[#1E1E1E] mb-1.5">
+              E-Mail <span class="text-[13.5px] text-[#555555]">(erforderlich)</span>
+            </label>
+            <input type="email" id="email" required class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] focus:outline-none focus:border-black" />
+          </div>
+
+          <!-- Telefon -->
+          <div>
+            <label for="telefon" class="block text-[15.5px] text-[#1E1E1E] mb-1.5">
+              Telefon
+            </label>
+            <input type="tel" id="telefon" class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] focus:outline-none focus:border-black" />
+          </div>
+
+          <!-- Wobei dürfen wir Sie unterstützen? -->
+          <div>
+            <label for="unterstuetzung" class="block text-[15.5px] text-[#1E1E1E] mb-1.5">
+              Wobei dürfen wir Sie unterstützen? <span class="text-[13.5px] text-[#555555]">(erforderlich)</span>
+            </label>
+            <div class="relative">
+              <select id="unterstuetzung" required class="w-full h-11 px-3 pr-10 border border-[#767676] bg-white text-[#666666] appearance-none focus:outline-none focus:border-black">
+                <option value="" selected disabled>Z.b. Alltagsbetreuung</option>
+                <option value="Alltagsbegleitung" class="text-[#1E1E1E]">Alltagsbegleitung</option>
+                <option value="Demenzbegleitung" class="text-[#1E1E1E]">Demenzbegleitung</option>
+                <option value="Sterbe- & Trauerbegleitung" class="text-[#1E1E1E]">Sterbe- &amp; Trauerbegleitung</option>
+                <option value="Finanzierung" class="text-[#1E1E1E]">Finanzierung</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#1E1E1E]">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wohnort des Betreuten -->
+          <div>
+            <label for="wohnort" class="block text-[15.5px] text-[#1E1E1E] mb-1.5">
+              Wohnort des Betreuten
+            </label>
+            <input type="text" id="wohnort" placeholder="Z.b. Königswinter, Bad Honnef, Bonn..." class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] placeholder-[#767676] text-[14px] focus:outline-none focus:border-black" />
+          </div>
+
+          <!-- Ihre Nachricht an uns (optional) -->
+          <div>
+            <label for="nachricht" class="block text-[15.5px] text-[#1E1E1E] mb-1.5">
+              Ihre Nachricht an uns (optional)
+            </label>
+            <input type="text" id="nachricht" placeholder="Erzählen Sie uns etwas über Ihre Situation" class="w-full h-11 px-3 border border-[#767676] bg-white text-[#1E1E1E] placeholder-[#767676] text-[14px] focus:outline-none focus:border-black" />
+          </div>
+
+          <!-- Senden Button -->
+          <div class="pt-1">
+            <button type="submit" class="bg-black hover:bg-neutral-800 text-white text-[15px] px-10 py-3.5 transition cursor-pointer">
+              Senden
+            </button>
+          </div>
+
+          <p id="form-feedback" class="hidden text-sm font-bold text-[#2C5545] bg-[#2C5545]/10 p-3 rounded">
+            Vielen Dank für Ihre Nachricht! Wir melden uns zeitnah persönlich bei Ihnen.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SCHLANKER FOOTER (Exakt nach Vorgabe 4)
+         ===================================================================== -->
+    <footer class="bg-[#2C5545] text-[#F9F6F0] py-10 border-t border-white/15">
+      <div class="max-w-[1320px] mx-auto px-6">
+        <div class="sq-grid items-start">
+
+          <!-- Spalte 1 (Links): einfachmehrvomleben + Kurztext -->
+          <div class="col-span-8 pr-0 lg:pr-6">
+            <h4 class="font-bold text-lg text-[#F9F6F0] mb-2">
+              einfachmehrvomleben
+            </h4>
+            <p class="text-sm text-[#F9F6F0]/90 leading-relaxed">
+              Ihr gemeinnütziger Verein für würdevolle Alltagsbegleitung, einfühlsame Demenzbetreuung und menschliche Nähe auf Augenhöhe.
+            </p>
+          </div>
+
+          <!-- Spalte 2 (Daneben): unsere Begleitung -->
+          <div class="col-span-5">
+            <h4 class="font-bold text-base text-[#F9F6F0] mb-2">
+              unsere Begleitung
+            </h4>
+            <ul class="space-y-1 text-sm text-[#F9F6F0]/90">
+              <li><a href="#sektion-3" class="hover:underline">Alltagsbegleitung</a></li>
+              <li><a href="#sektion-3" class="hover:underline">Demenzbegleitung</a></li>
+              <li><a href="#sektion-3" class="hover:underline">Trauer- &amp; Sterbebegleitung</a></li>
+              <li><a href="#sektion-5" class="hover:underline">Finanzierung</a></li>
+            </ul>
+          </div>
+
+          <!-- Spalte 3 (Daneben): Persönlich vor Ort im Einsatzgebiet -->
+          <div class="col-span-6">
+            <h4 class="font-bold text-base text-[#F9F6F0] mb-2">
+              Persönlich vor Ort im Einsatzgebiet:
+            </h4>
+            <ul class="space-y-1 text-sm text-[#F9F6F0]/90">
+              <li>Königswinter</li>
+              <li>Bad Honnef</li>
+              <li>Siebengebirge</li>
+              <li>Bonn &amp; Bad Godesberg</li>
+              <li>Rhein-Sieg-Kreis</li>
+              <li>Bergisch Gladbach</li>
+            </ul>
+          </div>
+
+          <!-- Spalte 4 (Daneben): Datenschutz & Impressum -->
+          <div class="col-span-5">
+            <ul class="space-y-1.5 text-sm text-[#F9F6F0]/90 font-medium">
+              <li><a href="#datenschutz" class="hover:underline">Datenschutz</a></li>
+              <li><a href="#impressum" class="hover:underline">Impressum</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- =====================================================================
+       PROTOTYP-SCRIPT (Preview-Switcher, Zitat-Navigation & Original-Logo Fallback)
+       ===================================================================== -->
+  <script>
+    // Originalgetreues Fallback-SVG des hochgeladenen Original-Logos (Logo.png), falls die Bilddatei lokal nicht im selben Ordner liegt
+    const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="360" height="320">
+      <rect width="360" height="320" fill="none"/>
+      <!-- Baumstamm -->
+      <path d="M162 205 C163 235, 155 265, 146 288 M194 205 C192 235, 198 265, 206 285 M172 225 C170 245, 168 255, 166 275 M184 218 C184 240, 182 258, 186 278" stroke="#A66E4E" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <!-- Grünes Baum-Herz -->
+      <path d="M178 64 C150 32, 82 48, 76 116 C70 172, 145 202, 178 232 C210 202, 284 172, 278 116 C272 48, 205 32, 178 64 Z" fill="#17A83B"/>
+      <!-- Rote Handschrift: einfach mehr vom Leben -->
+      <text x="108" y="108" fill="#E32219" font-family="Georgia, cursive, serif" font-style="italic" font-weight="bold" font-size="33">einfach</text>
+      <text x="92" y="142" fill="#E32219" font-family="Georgia, cursive, serif" font-style="italic" font-weight="bold" font-size="31">mehr vom</text>
+      <text x="100" y="176" fill="#E32219" font-family="Georgia, cursive, serif" font-style="italic" font-weight="bold" font-size="33">Leben</text>
+      <!-- Lächelndes Gesicht im Herz -->
+      <path d="M158 190 Q164 184 170 190" stroke="#E32219" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M186 190 Q192 184 198 190" stroke="#E32219" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M164 200 Q178 212 192 200" stroke="#E32219" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- Grüne Bodenlinie & bunte Blumen -->
+      <path d="M90 296 Q140 288 180 292 T270 296" stroke="#17A83B" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <circle cx="132" cy="285" r="5" fill="#1D9BF0"/><circle cx="142" cy="283" r="5" fill="#1D9BF0"/>
+      <circle cx="168" cy="282" r="6" fill="#F97316"/><circle cx="180" cy="280" r="6" fill="#F97316"/>
+      <circle cx="204" cy="276" r="5.5" fill="#F472B6"/><circle cx="216" cy="280" r="5.5" fill="#F472B6"/>
+      <circle cx="235" cy="282" r="6" fill="#FACC15"/><circle cx="248" cy="288" r="6" fill="#FACC15"/>
+    </svg>`;
+    window.ORIGINAL_LOGO_DATA_URI = 'data:image/svg+xml;utf8,' + encodeURIComponent(logoSvg);
+
+    // Falls Logo.png beim ersten Laden noch nicht griffbereit war, Fallback prüfen
+    document.querySelectorAll('img[src="Logo.png"]').forEach(img => {
+      if (img.complete && img.naturalWidth === 0) {
+        img.src = window.ORIGINAL_LOGO_DATA_URI;
+      }
+    });
+
+    // 1. Preview-Switcher (Desktop 24-Spalten vs. Mobile 390px Frame)
+    function setPreviewMode(mode) {
+      const wrapper = document.getElementById('viewport-wrapper');
+      const btnDesktop = document.getElementById('btn-desktop');
+      const btnMobile = document.getElementById('btn-mobile');
+
+      if (mode === 'mobile') {
+        wrapper.classList.add('mobile-mode');
+        btnMobile.className = 'px-3.5 py-1.5 rounded font-bold transition bg-[#2C5545] text-white';
+        btnDesktop.className = 'px-3.5 py-1.5 rounded font-bold transition bg-white/10 text-creme hover:bg-white/20';
+      } else {
+        wrapper.classList.remove('mobile-mode');
+        btnDesktop.className = 'px-3.5 py-1.5 rounded font-bold transition bg-[#2C5545] text-white';
+        btnMobile.className = 'px-3.5 py-1.5 rounded font-bold transition bg-white/10 text-creme hover:bg-white/20';
+      }
+    }
+
+    // 2. Mobile Navigation
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // 3. Rezensionen-Karussell (Startet exakt mit dem Zitat aus Screenshot 2.png)
+    const reviews = [
+      "„Hier wird wahre Menschenarbeit geleistet, sich auf Augenhöhe begegnet – ohne Profitgier und Zeitdruck. Im Rahmen meiner Arbeit habe ich diesen Verein mit ins Boot geholt. Eine wunderbare Unterstützung! Meine Klienten fühlen sich wertgeschätzt und in ihren Wünschen und Bedürfnissen gesehen. Der Austausch ist freundlich, kollegial, immer herzlich und oft humorvoll. Danke dafür.“",
+      "„Jetzt, wo es darauf ankommt, freue ich mich, dass ich mit Hilfe von einfachmehrvomLeben meiner Mutter ihren Wunsch ermöglichen kann, so lange wie möglich selbstbestimmt in ihrer häuslichen Umgebung bleiben zu können. Von Herzen vielen Dank an die Gründer des Vereins für ihre äußerst einfühlsame, liebevolle und hilfreiche Art.“",
+      "„Ich bin auf diesen Verein gestoßen, als ich aufgrund einer Pflegegradeinstufung Hilfe suchte. Seither bekomme ich Unterstützung und es ist genau das, was ich mir vorstellte: Empathie, Flexibilität und Freundlichkeit gepaart mit echtem Know-how!“"
+    ];
+    let currentReview = 0;
+
+    function nextReview() {
+      currentReview = (currentReview + 1) % reviews.length;
+      document.getElementById('review-text').textContent = reviews[currentReview];
+    }
+
+    function prevReview() {
+      currentReview = (currentReview - 1 + reviews.length) % reviews.length;
+      document.getElementById('review-text').textContent = reviews[currentReview];
+    }
+
+    // 4. Formular-Simulation
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      document.getElementById('form-feedback').classList.remove('hidden');
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
